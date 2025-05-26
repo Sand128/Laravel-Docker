@@ -1,0 +1,11 @@
+h1 {
+    color: #1e3a8a; /* Azul profundo */
+    font-size: 2.5rem; /* Corrección: era front-size */
+    text-align: center;
+    margin-top: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.15); /* Sombra más sutil y suave */
+    letter-spacing: 0.5px; /* Mejora la legibilidad */
+    font-weight: 700; /* Hace el título más robusto */
+    line-height: 1.2; /* Mejor espaciado vertical */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Fuente más moderna y limpia */
+}

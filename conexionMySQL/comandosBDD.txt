@@ -1,0 +1,14 @@
+CREATE DATABASE radio;
+USE radio;
+CREATE TABLE Campaña_Anunciante (id INT AUTO_INCREMENT PRIMARY KEY, id_campaña INT,  id_anunciante INT,  F_inicio DATE,  F_final DATE,  FOREIGN KEY (id_campaña) REFERENCES Campaña(id),  FOREIGN KEY (id_anunciante) REFERENCES Anunciante(id));
+CREATE TABLE Lista (id INT AUTO_INCREMENT PRIMARY KEY,  id_programa INT,  id_programacion INT,  fecha DATE,  hora TIME,  estatus VARCHAR(30),FOREIGN KEY (id_programa) REFERENCES Programa(id),  FOREIGN KEY (id_programacion) REFERENCES Programacion(id));
+CREATE TABLE TipoAnunciante (id INT AUTO_INCREMENT PRIMARY KEY,  descripcion VARCHAR(30));
+CREATE TABLE Anunciante (  id INT  AUTO_INCREMENT PRIMARY KEY,  id_tipo INT,  nombre VARCHAR(30),  a_paterno VARCHAR(30), a_materno VARCHAR(30),  direccion VARCHAR(30),  localidad VARCHAR(30),  municipio VARCHAR(30),  estado VARCHAR(30),  telefono VARCHAR(15),  email VARCHAR(40), estatus VARCHAR(30),  FOREIGN KEY (id_tipo) REFERENCES TipoAnunciante(id));
+CREATE TABLE Rol (id INT AUTO_INCREMENT PRIMARY KEY, tipo VARCHAR(20));
+CREATE TABLE Categoria ( id INT AUTO_INCREMENT PRIMARY KEY, nombre VARCHAR(30));
+CREATE TABLE Programacion ( id INT  AUTO_INCREMENT PRIMARY KEY,  nombre VARCHAR(30),  descripcion TEXT,  estatus VARCHAR(30));
+CREATE TABLE Usuario (  id INT AUTO_INCREMENT PRIMARY KEY,  id_rol INT,  nombre VARCHAR(30),  a_paterno VARCHAR(30),  a_materno VARCHAR(30),  telefono VARCHAR(15),  email VARCHAR(40),  redes_s VARCHAR(30),  direccion VARCHAR(30),  usuario VARCHAR(30),  contraseña VARCHAR(30),  estatus VARCHAR(20) ,imagen VARCHAR(255),  FOREIGN KEY (id_rol) REFERENCES Rol(id));
+CREATE TABLE Contenido ( id INT AUTO_INCREMENT PRIMARY KEY, id_usuario INT,  id_categoria INT,  titulo VARCHAR(30),  contenido TEXT,  etiqueta VARCHAR(30),  estatus VARCHAR(30),  imagen VARCHAR(255),  FOREIGN KEY (id_usuario) REFERENCES Usuario(id),  FOREIGN KEY (id_categoria) REFERENCES Categoria(id));
+CREATE TABLE Campaña (id INT AUTO_INCREMENT PRIMARY KEY, id_usuario INT,nombre VARCHAR(30), descripcion TEXT,  estatus VARCHAR(30),  ubicacion VARCHAR(30),  url VARCHAR(300),  imagen VARCHAR(255),  FOREIGN KEY (id_usuario) REFERENCES Usuario(id));
+CREATE TABLE Programa (id INT AUTO_INCREMENT PRIMARY KEY,id_usuario INT,nombre VARCHAR(30),descripcion VARCHAR(30), duracion TIME,  estatus VARCHAR(30), FOREIGN KEY (id_usuario) REFERENCES Usuario(id));
+show tables;

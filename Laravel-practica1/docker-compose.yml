@@ -1,0 +1,35 @@
+version: '3.8'
+
+services:
+  app:
+    image: php:8.2-apache
+    container_name: laravel1_app
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "8010:80"
+    depends_on:
+      - db
+    command: bash -c "docker-php-ext-install pdo pdo_mysql && apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    container_name: laravel1_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: appL1_db
+      MYSQL_USER: appL1_user
+      MYSQL_PASSWORD: appL1_pass
+    ports:
+      - "3310:3306"
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: laravel1_phpmyadmin
+    restart: always
+    ports:
+      - "8085:80"
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306

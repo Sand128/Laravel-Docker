@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_radio
+    ports:
+      - "3320:3306"  # Importante: evitar conflicto con MySQL local
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: radio 
+      MYSQL_USER: sand
+      MYSQL_PASSWORD: sand1
+
