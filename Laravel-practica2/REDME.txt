@@ -1,0 +1,144 @@
+Perfecto, te voy a entregar una plantilla limpia y bien organizada para tus futuros proyectos en Laravel 12 + MySQL + Docker, con todos los comandos base para **evitar errores comunes**.
+
+---
+
+## 📄 Estructura recomendada de documentos y archivos
+
+### 1. `docker-compose.yml`
+
+```yaml
+version: '3.8'
+
+services:
+  app:
+    image: php:8.2-apache
+    container_name: laravel2_app
+    ports:
+      - "8020:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - db
+    environment:
+      - APACHE_DOCUMENT_ROOT=/var/www/html/public
+    working_dir: /var/www/html
+    command: bash -c "docker-php-ext-install pdo pdo_mysql && apache2-foreground"
+
+  db:
+    image: mysql:8.0
+    container_name: laravel2_db
+    ports:
+      - "3320:3306"
+    environment:
+      MYSQL_DATABASE: appL2_db
+      MYSQL_ROOT_PASSWORD: rootpass
+      MYSQL_USER: appL2_user
+      MYSQL_PASSWORD: appL2_pass
+    volumes:
+      - dbdata:/var/lib/mysql
+
+volumes:
+  dbdata:
+```
+
+---
+
+### 2. `.env` limpio para Laravel 12
+
+```dotenv
+APP_NAME=Laravel
+APP_ENV=local
+APP_KEY=
+APP_DEBUG=true
+APP_URL=http://localhost:8020
+
+LOG_CHANNEL=stack
+LOG_DEPRECATIONS_CHANNEL=null
+LOG_LEVEL=debug
+
+DB_CONNECTION=mysql
+DB_HOST=db
+DB_PORT=3306
+DB_DATABASE=appL2_db
+DB_USERNAME=appL2_user
+DB_PASSWORD=appL2_pass
+
+BROADCAST_DRIVER=log
+CACHE_DRIVER=file
+FILESYSTEM_DISK=local
+QUEUE_CONNECTION=sync
+SESSION_DRIVER=database
+SESSION_LIFETIME=120
+
+```
+
+---
+
+## 📜 Comandos correctos y ordenados (sin errores)
+
+#### Paso 1: Levantar el entorno
+
+```bash
+docker compose up -d
+```
+
+#### Paso 2: Instalar Laravel 12 en el contenedor app
+
+```bash
+docker exec -it laravel2_app bash
+composer create-project laravel/laravel:^12 .
+exit
+```
+
+#### Paso 3: Dar permisos correctos dentro del contenedor
+
+```bash
+docker exec -it laravel2_app bash
+chown -R www-data:www-data /var/www/html
+chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+exit
+```
+
+#### Paso 4: Generar clave de la app y limpiar cachés
+
+```bash
+docker exec -it laravel2_app bash
+php artisan key:generate
+php artisan config:clear
+php artisan cache:clear
+php artisan route:clear
+php artisan view:clear
+exit
+```
+
+#### Paso 5: Crear tabla de sesiones y correr migraciones
+
+```bash
+docker exec -it laravel2_app bash
+php artisan session:table
+php artisan migrate
+exit
+```
+
+#### Paso 6: Acceder en navegador
+
+```
+http://localhost:8020
+```
+
+---
+
+## 🛡 Checkeo rápido de errores comunes
+
+| 🔍 Error                                    | ✅ Solución correcta                    |
+| ------------------------------------------- | -------------------------------------- |
+| **Forbidden / Permisos**                    | `chmod -R 775 storage bootstrap/cache` |
+| **500 permisos en archivos Blade / Logs**   | `chown -R www-data:www-data .`         |
+| **Migraciones fallan por tablas faltantes** | `php artisan migrate`                  |
+| **Sesiones con error SQL**                  | `php artisan session:table && migrate` |
+| **Error de claves APP\_KEY faltante**       | `php artisan key:generate`             |
+
+---
+
+¿Deseas que te entregue todo esto en una **plantilla ZIP lista para clonar y renombrar proyectos de Laravel 12 en Docker**?
+Si quieres, solo dime "**Sí, plantilla ZIP.**"  y te preparo la estructura.
